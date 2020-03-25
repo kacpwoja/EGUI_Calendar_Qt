@@ -4,6 +4,7 @@
 #include <QCalendarWidget>
 #include <QTextCharFormat>
 #include <QVector>
+#include "daywindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -12,8 +13,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     eventList = new QMultiMap<QDate, Event>();
-    connect(ui->todayButton, SIGNAL(released()), this, SLOT(selectToday()));
-    connect(ui->calendar, SIGNAL(selectionChanged()), this, SLOT(updateTopText()));
+    connect(ui->todayButton, &QPushButton::released, this, &MainWindow::selectToday);
+    connect(ui->calendar, &QCalendarWidget::selectionChanged, this, &MainWindow::updateTopText);
+    connect(ui->calendar, &QCalendarWidget::activated, this, &MainWindow::viewDay);
     testfun();
 }
 
@@ -56,4 +58,11 @@ void MainWindow::updateTopText()
         eventText = QString(events);
 
     ui->dayEventsLabel->setText("You have " + eventText + " event" + pluralSuffix + " " + dateText);
+}
+
+void MainWindow::viewDay(const QDate& date)
+{
+    DayWindow* dayWin = new DayWindow(this);
+    dayWin->date(date);
+    dayWin->show();
 }

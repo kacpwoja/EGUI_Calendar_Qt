@@ -20,9 +20,11 @@ public:
 private:
     Ui::MainWindow *ui;
     QMultiMap<QDate, Event>* eventList;
+    QDate test;
     void testfun();
 private slots:
     void selectToday();
     void updateTopText();
+    void viewDay(const QDate& date);
 };
 #endif // MAINWINDOW_H

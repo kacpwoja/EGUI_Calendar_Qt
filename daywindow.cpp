@@ -12,3 +12,9 @@ DayWindow::~DayWindow()
 {
     delete ui;
 }
+
+void DayWindow::date(const QDate& date)
+{
+    _date = date;
+    setWindowTitle(_date.toString("dddd, d MMMM yyyy"));
+}
