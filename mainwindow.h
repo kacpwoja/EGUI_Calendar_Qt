@@ -17,5 +17,8 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    void testfun();
+private slots:
+    void selectToday();
 };
 #endif // MAINWINDOW_H
