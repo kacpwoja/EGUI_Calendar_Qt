@@ -3,6 +3,7 @@
 
 #include <QCalendarWidget>
 #include <QTextCharFormat>
+#include <QVector>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -10,7 +11,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    eventList = new QMultiMap<QDate, Event>();
     connect(ui->todayButton, SIGNAL(released()), this, SLOT(selectToday()));
+    connect(ui->calendar, SIGNAL(selectionChanged()), this, SLOT(updateTopText()));
     testfun();
 }
 
@@ -30,4 +33,27 @@ void MainWindow::testfun()
 void MainWindow::selectToday()
 {
     ui->calendar->setSelectedDate(QDate::currentDate());
+}
+
+void MainWindow::updateTopText()
+{
+    QString dateText;
+    QString pluralSuffix = "";
+    QString eventText;
+    // Getting date
+    if(ui->calendar->selectedDate() == QDate::currentDate())
+        dateText = "today";
+    else
+        dateText = "on " + ui->calendar->selectedDate().toString("d MMMM yyyy");
+
+    // Getting event count
+    int events = eventList->count(ui->calendar->selectedDate());
+    if(events != 1)
+        pluralSuffix = "s";
+    if(events == 0)
+        eventText = "no";
+    else
+        eventText = QString(events);
+
+    ui->dayEventsLabel->setText("You have " + eventText + " event" + pluralSuffix + " " + dateText);
 }

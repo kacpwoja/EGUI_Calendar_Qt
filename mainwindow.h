@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QMultiMap>
+#include <event.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,8 +19,10 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    QMultiMap<QDate, Event>* eventList;
     void testfun();
 private slots:
     void selectToday();
+    void updateTopText();
 };
 #endif // MAINWINDOW_H
