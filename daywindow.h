@@ -4,7 +4,7 @@
 #include <QDialog>
 #include <QDate>
 #include <QVector>
-#include <QLabel>
+#include "eventbox.h"
 
 namespace Ui {
 class DayWindow;
@@ -23,9 +23,10 @@ public:
 private:
     Ui::DayWindow *ui;
     QDate _date;
-    QVector<QLabel*> eventLabels;
+    QVector<EventBox*> events;
     void loadEvents();
     void updateTopText();
+
 
 private slots:
     void newEvent();

@@ -25,7 +25,7 @@ void EventWindow::accept()
     try
     {
         Event ev(ui->dateEdit->date(), ui->tStartEdit->time(), ui->tEndEdit->time(), ui->titleEdit->toPlainText(), ui->locationEdit->toPlainText());
-        EventDB.add(ev.date(), ev);
+        EventDB.add(ev);
     }
     catch (Event::EventException& e)
     {

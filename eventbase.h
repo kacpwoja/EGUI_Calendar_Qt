@@ -21,8 +21,8 @@ public:
     }
 
     int count(const QDate& date) const noexcept;
-    void add(const QDate& date, const Event& event);
-    void remove(const QDate& date, const Event& event);
+    void add(const Event& event);
+    void remove(const Event& event);
     const QVector<Event>* getEvents(const QDate& date);
 
 signals:

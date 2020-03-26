@@ -3,6 +3,8 @@
 #include "mainwindow.h"
 #include <QDate>
 #include <QMultiMap>
+#include <QLabel>
+#include <QHBoxLayout>
 #include "event.h"
 #include "eventwindow.h"
 #include "eventbase.h"
@@ -23,21 +25,21 @@ DayWindow::DayWindow(const QDate& date, QWidget *parent) :
 DayWindow::~DayWindow()
 {
     delete ui;
-    QLabel* lbl;
-    foreach (lbl, eventLabels)
-        delete lbl;
+    EventBox* evbox;
+    foreach (evbox, events)
+        delete evbox;
 }
 
 void DayWindow::loadEvents()
 {
     updateTopText();
-    QLabel* lbl;
-    foreach (lbl, eventLabels)
+    EventBox* evbox;
+    foreach (evbox, events)
     {
-        ui->eventsLayout->removeWidget(lbl);
-        delete lbl;
+        ui->eventsLayout->removeWidget(evbox);
+        delete evbox;
     }
-    eventLabels.clear();
+    events.clear();
 
     auto eventList = EventDB.getEvents(_date);
     if(!eventList)
@@ -45,13 +47,9 @@ void DayWindow::loadEvents()
     Event ev;
     foreach (ev, *eventList)
     {
-        QString str = ev.timeStart().toString("h:mm") + " - " + ev.timeEnd().toString("h:mm") + " " + ev.title();
-        if(ev.location() != "")
-            str += " at " + ev.location();
-        QLabel* lbl = new QLabel;
-        lbl->setText(str);
-        eventLabels.append(lbl);
-        ui->eventsLayout->insertWidget(ui->eventsLayout->count()-1, lbl);
+        EventBox* evbox = new EventBox(ev, this);
+        events.append(evbox);
+        ui->eventsLayout->insertWidget(ui->eventsLayout->count()-1, evbox);
     }
 }
 

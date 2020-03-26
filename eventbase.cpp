@@ -21,13 +21,13 @@ int EventBase::count(const QDate& date) const noexcept
     return it.value()->length();
 }
 
-void EventBase::add(const QDate& date, const Event& event)
+void EventBase::add(const Event& event)
 {
-    auto it = base.find(date);
+    auto it = base.find(event.date());
 
     if(it == base.end())
     {
-        it = base.insert(date, new QVector<Event>);
+        it = base.insert(event.date(), new QVector<Event>);
     }
 
     it.value()->append(event);
@@ -37,9 +37,9 @@ void EventBase::add(const QDate& date, const Event& event)
     emit baseUpdated();
 }
 
-void EventBase::remove(const QDate& date, const Event& event)
+void EventBase::remove(const Event& event)
 {
-    auto it = base.find(date);
+    auto it = base.find(event.date());
 
     if(it == base.end())
     {
@@ -51,7 +51,7 @@ void EventBase::remove(const QDate& date, const Event& event)
     if(it.value()->empty())
     {
         delete it.value();
-        base.remove(date);
+        base.remove(event.date());
     }
 
     emit baseUpdated();

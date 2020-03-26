@@ -19,6 +19,7 @@ SOURCES += \
     daywindow.cpp \
     event.cpp \
     eventbase.cpp \
+    eventbox.cpp \
     eventwindow.cpp \
     main.cpp \
     mainwindow.cpp
@@ -27,11 +28,13 @@ HEADERS += \
     daywindow.h \
     event.h \
     eventbase.h \
+    eventbox.h \
     eventwindow.h \
     mainwindow.h
 
 FORMS += \
     daywindow.ui \
+    eventbox.ui \
     eventwindow.ui \
     mainwindow.ui
 

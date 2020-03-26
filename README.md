@@ -7,7 +7,7 @@ TODO:
 - testing
 ## DayWindow:
 - better design
-- edit / delete
+- edit
 - test
 ## EventWindow:
 - test
