@@ -2,6 +2,7 @@
 #include "ui_eventbox.h"
 #include "event.h"
 #include "eventbase.h"
+#include "eventwindow.h"
 
 EventBox::EventBox(const Event& event, QWidget *parent) :
     QWidget(parent),
@@ -25,7 +26,8 @@ EventBox::~EventBox()
 
 void EventBox::editEvent()
 {
-
+    EventWindow* eventWin = new EventWindow(_event, parentWidget());
+    eventWin->exec();
 }
 
 void EventBox::removeEvent()

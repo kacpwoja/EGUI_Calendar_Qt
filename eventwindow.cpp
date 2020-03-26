@@ -13,6 +13,21 @@ EventWindow::EventWindow(const QDate& date, QWidget *parent) :
     ui->tStartEdit->setTime(QTime::currentTime());
     ui->tEndEdit->setTime(QTime(QTime::currentTime().hour()+1,QTime::currentTime().minute()));
     ui->titleEdit->setPlainText("Event");
+    edit = false;
+}
+
+EventWindow::EventWindow(const Event& event, QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::EventWindow)
+{
+    ui->setupUi(this);
+    ui->dateEdit->setDate(event.date());
+    ui->tStartEdit->setTime(event.timeStart());
+    ui->tEndEdit->setTime(event.timeEnd());
+    ui->titleEdit->setPlainText(event.title());
+    ui->locationEdit->setPlainText(event.location());
+    edit = true;
+    old_event = event;
 }
 
 EventWindow::~EventWindow()
@@ -25,6 +40,8 @@ void EventWindow::accept()
     try
     {
         Event ev(ui->dateEdit->date(), ui->tStartEdit->time(), ui->tEndEdit->time(), ui->titleEdit->toPlainText(), ui->locationEdit->toPlainText());
+        if(edit)
+            EventDB.remove(old_event);
         EventDB.add(ev);
     }
     catch (Event::EventException& e)
