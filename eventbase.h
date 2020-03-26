@@ -5,7 +5,9 @@
 #include <QDate>
 #include <QMap>
 #include <QVector>
-#include <event.h>
+#include <QJsonObject>
+#include <QJsonArray>
+#include "event.h"
 
 class EventBase: public QObject
 {
@@ -24,6 +26,10 @@ public:
     void add(const Event& event);
     void remove(const Event& event);
     const QVector<Event>* getEvents(const QDate& date);
+    void clear();
+
+    void read(const QJsonObject& json);
+    void write(QJsonObject& json) const;
 
 signals:
     void baseUpdated();

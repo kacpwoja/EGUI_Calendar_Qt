@@ -4,15 +4,35 @@
 #include <QCalendarWidget>
 #include <QTextCharFormat>
 #include <QVector>
+#include <QFile>
+#include <QJsonDocument>
 #include "daywindow.h"
 #include "eventwindow.h"
 #include "eventbase.h"
+
+#define FILENAME "events.json"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    //READ FROM FILE
+    QFile loadFile(QStringLiteral(FILENAME));
+    if(!loadFile.open(QIODevice::ReadOnly))
+    {
+        qWarning("File was not read.");
+        EventDB.clear();
+    }
+    else
+    {
+        QJsonDocument doc = QJsonDocument::fromJson(loadFile.readAll());
+        EventDB.read(doc.object());
+    }
+    loadFile.close();
+
+    formatCalendar();
 
     connect(ui->todayButton, &QPushButton::released, this, &MainWindow::selectToday);
     connect(ui->newEventButton, &QPushButton::released, this, &MainWindow::newEvent);
@@ -24,6 +44,16 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    //SAVE TO FILE
+    QFile saveFile(QStringLiteral(FILENAME));
+    if(!saveFile.open(QIODevice::WriteOnly))
+        qWarning("File was not saved.");
+    QJsonObject obj;
+    EventDB.write(obj);
+    QJsonDocument doc(obj);
+    saveFile.write(doc.toJson());
+    saveFile.close();
+
     delete ui;
 }
 
@@ -36,14 +66,17 @@ void MainWindow::formatCalendar()
 {
     updateTopText();
 
+    ui->calendar->setDateTextFormat(QDate(), QTextCharFormat());
+
+    QTextCharFormat eventFormat;
+    auto palette = qApp->palette();
+    eventFormat.setBackground(palette.brush(QPalette::Mid));
+
     QDate it = QDate(ui->calendar->yearShown(), ui->calendar->monthShown(), 1);
     while(it.month() == ui->calendar->monthShown())
     {
         if(EventDB.count(it) > 0)
         {
-            QTextCharFormat eventFormat;
-            auto palette = qApp->palette();
-            eventFormat.setBackground(palette.brush(QPalette::Mid));
             ui->calendar->setDateTextFormat(it, eventFormat);
         }
         it = it.addDays(1);

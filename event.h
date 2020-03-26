@@ -6,6 +6,7 @@
 #include <QString>
 #include <QPair>
 #include <QException>
+#include <QJsonObject>
 
 class Event
 {
@@ -49,6 +50,9 @@ public:
     void timeEnd(const QTime& timeEnd);
     void title(const QString& title) noexcept { _title = title; }
     void location(const QString& location) noexcept { _location = location; }
+
+    void read(const QJsonObject& json);
+    void write(QJsonObject& json) const;
 private:
     QDate _date;
     struct time{

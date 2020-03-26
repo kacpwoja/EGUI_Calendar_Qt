@@ -60,3 +60,21 @@ void Event::timeEnd(const QTime& timeEnd)
 
     _time.end = timeEnd;
 }
+
+void Event::read(const QJsonObject& json)
+{
+    _date = QDate::fromString(json["date"].toString(), "ddMMyyyy");
+    _time.start = QTime::fromString(json["timeStart"].toString(), "hhmm");
+    _time.end = QTime::fromString(json["timeEnd"].toString(), "hhmm");
+    _title = json["title"].toString();
+    _location = json["location"].toString();
+}
+
+void Event::write(QJsonObject& json) const
+{
+    json["date"] =_date.toString("ddMMyyyy");
+    json["timeStart"] = _time.start.toString("hhmm");
+    json["timeEnd"] = _time.end.toString("hhmm");
+    json["title"] = _title;
+    json["location"] = _location;
+}
