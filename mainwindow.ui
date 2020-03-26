@@ -45,6 +45,19 @@
          </spacer>
         </item>
         <item>
+         <widget class="QPushButton" name="newEventButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>New Event</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QPushButton" name="todayButton">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">

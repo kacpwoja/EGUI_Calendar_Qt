@@ -18,16 +18,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     daywindow.cpp \
     event.cpp \
+    eventwindow.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     daywindow.h \
     event.h \
+    eventwindow.h \
     mainwindow.h
 
 FORMS += \
     daywindow.ui \
+    eventwindow.ui \
     mainwindow.ui
 
 # Default rules for deployment.

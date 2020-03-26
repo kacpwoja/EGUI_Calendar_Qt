@@ -26,5 +26,6 @@ private slots:
     void selectToday();
     void updateTopText();
     void viewDay(const QDate& date);
+    void newEvent();
 };
 #endif // MAINWINDOW_H

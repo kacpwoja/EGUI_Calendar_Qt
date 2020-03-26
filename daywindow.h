@@ -15,7 +15,7 @@ class DayWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit DayWindow(QWidget *parent = nullptr);
+    explicit DayWindow(const QDate& date, QWidget *parent = nullptr);
     ~DayWindow();
 
     void date(const QDate& date);
@@ -26,6 +26,9 @@ private:
     QVector<QLabel*> eventLabels;
     void loadEvents();
     void updateTopText();
+
+private slots:
+    void newEvent();
 };
 
 #endif // DAYWINDOW_H

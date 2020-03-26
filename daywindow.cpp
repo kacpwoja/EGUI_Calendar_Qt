@@ -4,12 +4,17 @@
 #include <QDate>
 #include <QMultiMap>
 #include "event.h"
+#include "eventwindow.h"
 
-DayWindow::DayWindow(QWidget *parent) :
+DayWindow::DayWindow(const QDate& date, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DayWindow)
 {
     ui->setupUi(this);
+    connect(ui->newEventButton, &QPushButton::released, this, &DayWindow::newEvent);
+    _date = date;
+    setWindowTitle(_date.toString("dddd, d MMMM yyyy"));
+    loadEvents();
 }
 
 DayWindow::~DayWindow()
@@ -18,13 +23,6 @@ DayWindow::~DayWindow()
     QLabel* lbl;
     foreach (lbl, eventLabels)
         delete lbl;
-}
-
-void DayWindow::date(const QDate& date)
-{
-    _date = date;
-    setWindowTitle(_date.toString("dddd, d MMMM yyyy"));
-    loadEvents();
 }
 
 void DayWindow::loadEvents()
@@ -65,4 +63,10 @@ void DayWindow::updateTopText()
         eventText = QString(events);
 
     ui->topbarLabel->setText(eventText + " event" + pluralSuffix + " " + dateText + ".");
+}
+
+void DayWindow::newEvent()
+{
+    EventWindow* eventWin = new EventWindow(_date, this);
+    eventWin->exec();
 }
