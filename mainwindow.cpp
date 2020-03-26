@@ -6,6 +6,7 @@
 #include <QVector>
 #include "daywindow.h"
 #include "eventwindow.h"
+#include "eventbase.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -13,7 +14,6 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    eventList = new QMultiMap<QDate, Event>();
     connect(ui->todayButton, &QPushButton::released, this, &MainWindow::selectToday);
     connect(ui->newEventButton, &QPushButton::released, this, &MainWindow::newEvent);
     connect(ui->calendar, &QCalendarWidget::selectionChanged, this, &MainWindow::updateTopText);
@@ -51,7 +51,7 @@ void MainWindow::updateTopText()
         dateText = "on " + ui->calendar->selectedDate().toString("d MMMM yyyy");
 
     // Getting event count
-    int events = eventList->count(ui->calendar->selectedDate());
+    int events = EventDB.count(ui->calendar->selectedDate());
     if(events != 1)
         pluralSuffix = "s";
     if(events == 0)

@@ -2,13 +2,13 @@
 TODO:
 ## Main:
 - save/read to file (JSON)
-- DB refactor: global
 - some code refactoring
 ## MainWindow:
 - coloring days
 - testing
 ## DayWindow:
 - better design
+- edit / delete
 - test
 ## EventWindow:
 - adding to DB

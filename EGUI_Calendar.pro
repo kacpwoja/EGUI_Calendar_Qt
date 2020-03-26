@@ -18,6 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     daywindow.cpp \
     event.cpp \
+    eventbase.cpp \
     eventwindow.cpp \
     main.cpp \
     mainwindow.cpp
@@ -25,6 +26,7 @@ SOURCES += \
 HEADERS += \
     daywindow.h \
     event.h \
+    eventbase.h \
     eventwindow.h \
     mainwindow.h
 

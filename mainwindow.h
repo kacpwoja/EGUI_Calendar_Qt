@@ -17,11 +17,11 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    QMultiMap<QDate, Event>* eventList;
 private:
     Ui::MainWindow *ui;
     QDate test;
     void testfun();
+
 private slots:
     void selectToday();
     void updateTopText();
