@@ -1,5 +1,9 @@
 #include "daywindow.h"
 #include "ui_daywindow.h"
+#include "mainwindow.h"
+#include <QDate>
+#include <QMultiMap>
+#include "event.h"
 
 DayWindow::DayWindow(QWidget *parent) :
     QDialog(parent),
@@ -11,10 +15,54 @@ DayWindow::DayWindow(QWidget *parent) :
 DayWindow::~DayWindow()
 {
     delete ui;
+    QLabel* lbl;
+    foreach (lbl, eventLabels)
+        delete lbl;
 }
 
 void DayWindow::date(const QDate& date)
 {
     _date = date;
     setWindowTitle(_date.toString("dddd, d MMMM yyyy"));
+    loadEvents();
+}
+
+void DayWindow::loadEvents()
+{
+    updateTopText();
+    QMultiMap<QDate, Event>* eventList = qobject_cast<MainWindow*>(parent())->eventList;
+    for (auto i = eventList->begin(); i != eventList->end(); ++i )
+    {
+        if(i.key() == _date)
+        {
+            QString str = i->timeStart().toString() + " - " + i->timeEnd().toString() + " " + i->title() + " at " + i->location();
+            QLabel* lbl = new QLabel;
+            lbl->setText(str);
+            eventLabels.append(lbl);
+            ui->eventsLayout->addWidget(lbl);
+        }
+    }
+}
+
+void DayWindow::updateTopText()
+{
+    QString dateText;
+    QString pluralSuffix = "";
+    QString eventText;
+    // Getting date
+    if(_date == QDate::currentDate())
+        dateText = "today";
+    else
+        dateText = "on " + _date.toString("ddd d MM yyyy");
+
+    // Getting event count
+    int events = qobject_cast<MainWindow*>(parent())->eventList->count(_date);
+    if(events != 1)
+        pluralSuffix = "s";
+    if(events == 0)
+        eventText = "No";
+    else
+        eventText = QString(events);
+
+    ui->topbarLabel->setText(eventText + " event" + pluralSuffix + " " + dateText + ".");
 }

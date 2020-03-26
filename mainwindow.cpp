@@ -57,12 +57,12 @@ void MainWindow::updateTopText()
     else
         eventText = QString(events);
 
-    ui->dayEventsLabel->setText("You have " + eventText + " event" + pluralSuffix + " " + dateText);
+    ui->dayEventsLabel->setText("You have " + eventText + " event" + pluralSuffix + " " + dateText + ".");
 }
 
 void MainWindow::viewDay(const QDate& date)
 {
     DayWindow* dayWin = new DayWindow(this);
     dayWin->date(date);
-    dayWin->show();
+    dayWin->exec();
 }

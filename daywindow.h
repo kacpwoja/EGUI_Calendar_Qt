@@ -3,6 +3,8 @@
 
 #include <QDialog>
 #include <QDate>
+#include <QVector>
+#include <QLabel>
 
 namespace Ui {
 class DayWindow;
@@ -21,6 +23,9 @@ public:
 private:
     Ui::DayWindow *ui;
     QDate _date;
+    QVector<QLabel*> eventLabels;
+    void loadEvents();
+    void updateTopText();
 };
 
 #endif // DAYWINDOW_H

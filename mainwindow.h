@@ -17,9 +17,9 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    QMultiMap<QDate, Event>* eventList;
 private:
     Ui::MainWindow *ui;
-    QMultiMap<QDate, Event>* eventList;
     QDate test;
     void testfun();
 private slots:
