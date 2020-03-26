@@ -32,6 +32,8 @@ void EventBase::add(const QDate& date, const Event& event)
 
     it.value()->append(event);
 
+    std::sort(it.value()->begin(), it.value()->end(), [](const Event& a, const Event& b) { return a.timeStart() < b.timeStart();} );
+
     emit baseUpdated();
 }
 

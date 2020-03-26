@@ -17,6 +17,7 @@ DayWindow::DayWindow(const QDate& date, QWidget *parent) :
     loadEvents();
 
     connect(ui->newEventButton, &QPushButton::released, this, &DayWindow::newEvent);
+    connect(&EventDB, &EventBase::baseUpdated, this, &DayWindow::loadEvents);
 }
 
 DayWindow::~DayWindow()
@@ -30,16 +31,27 @@ DayWindow::~DayWindow()
 void DayWindow::loadEvents()
 {
     updateTopText();
+    QLabel* lbl;
+    foreach (lbl, eventLabels)
+    {
+        ui->eventsLayout->removeWidget(lbl);
+        delete lbl;
+    }
+    eventLabels.clear();
+
     auto eventList = EventDB.getEvents(_date);
     if(!eventList)
         return;
-    for (auto i = eventList->begin(); i != eventList->end(); ++i )
+    Event ev;
+    foreach (ev, *eventList)
     {
-        QString str = i->timeStart().toString() + " - " + i->timeEnd().toString() + " " + i->title() + " at " + i->location();
+        QString str = ev.timeStart().toString("h:mm") + " - " + ev.timeEnd().toString("h:mm") + " " + ev.title();
+        if(ev.location() != "")
+            str += " at " + ev.location();
         QLabel* lbl = new QLabel;
         lbl->setText(str);
         eventLabels.append(lbl);
-        ui->eventsLayout->addWidget(lbl);
+        ui->eventsLayout->insertWidget(ui->eventsLayout->count()-1, lbl);
     }
 }
 
@@ -61,7 +73,7 @@ void DayWindow::updateTopText()
     if(events == 0)
         eventText = "No";
     else
-        eventText = QString(events);
+        eventText = QString::number(events);
 
     ui->topbarLabel->setText(eventText + " event" + pluralSuffix + " " + dateText + ".");
 }

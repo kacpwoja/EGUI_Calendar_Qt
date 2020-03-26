@@ -18,7 +18,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->newEventButton, &QPushButton::released, this, &MainWindow::newEvent);
     connect(ui->calendar, &QCalendarWidget::selectionChanged, this, &MainWindow::updateTopText);
     connect(ui->calendar, &QCalendarWidget::activated, this, &MainWindow::viewDay);
-    testfun();
+    connect(&EventDB, &EventBase::baseUpdated, this, &MainWindow::formatCalendar);
+    connect(ui->calendar, &QCalendarWidget::currentPageChanged, this, &MainWindow::formatCalendar);
 }
 
 MainWindow::~MainWindow()
@@ -26,17 +27,28 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::testfun()
-{
-    QTextCharFormat eeeFormat;
-    eeeFormat.setBackground(Qt::red);
-    QDate date(2020, 3, 10);
-    ui->calendar->setDateTextFormat(date, eeeFormat);
-}
-
 void MainWindow::selectToday()
 {
     ui->calendar->setSelectedDate(QDate::currentDate());
+}
+
+void MainWindow::formatCalendar()
+{
+    updateTopText();
+
+    QDate it = QDate(ui->calendar->yearShown(), ui->calendar->monthShown(), 1);
+    while(it.month() == ui->calendar->monthShown())
+    {
+        if(EventDB.count(it) > 0)
+        {
+            QTextCharFormat eventFormat;
+            auto palette = qApp->palette();
+            eventFormat.setBackground(palette.brush(QPalette::Mid));
+            ui->calendar->setDateTextFormat(it, eventFormat);
+        }
+        it = it.addDays(1);
+    }
+
 }
 
 void MainWindow::updateTopText()
@@ -57,7 +69,7 @@ void MainWindow::updateTopText()
     if(events == 0)
         eventText = "no";
     else
-        eventText = QString(events);
+        eventText = QString::number(events);
 
     ui->dayEventsLabel->setText("You have " + eventText + " event" + pluralSuffix + " " + dateText + ".");
 }

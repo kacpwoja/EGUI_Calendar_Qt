@@ -2,6 +2,7 @@
 #include "ui_eventwindow.h"
 #include <QMessageBox>
 #include "event.h"
+#include "eventbase.h"
 
 EventWindow::EventWindow(const QDate& date, QWidget *parent) :
     QDialog(parent),
@@ -24,7 +25,7 @@ void EventWindow::accept()
     try
     {
         Event ev(ui->dateEdit->date(), ui->tStartEdit->time(), ui->tEndEdit->time(), ui->titleEdit->toPlainText(), ui->locationEdit->toPlainText());
-        // ADD TO DB
+        EventDB.add(ev.date(), ev);
     }
     catch (Event::EventException& e)
     {

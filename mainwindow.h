@@ -19,13 +19,12 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    QDate test;
-    void testfun();
 
 private slots:
     void selectToday();
     void updateTopText();
     void viewDay(const QDate& date);
     void newEvent();
+    void formatCalendar();
 };
 #endif // MAINWINDOW_H
