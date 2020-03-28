@@ -33,6 +33,7 @@ DayWindow::~DayWindow()
 void DayWindow::loadEvents()
 {
     updateTopText();
+    // Clear event list
     EventBox* evbox;
     foreach (evbox, events)
     {
@@ -41,9 +42,13 @@ void DayWindow::loadEvents()
     }
     events.clear();
 
+    // Get events from this day
     auto eventList = EventDB.getEvents(_date);
+    // No events this day
     if(!eventList)
         return;
+
+    // Add widgets for each event
     Event ev;
     foreach (ev, *eventList)
     {

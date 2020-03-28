@@ -66,12 +66,15 @@ void MainWindow::formatCalendar()
 {
     updateTopText();
 
+    // Reset format for all days
     ui->calendar->setDateTextFormat(QDate(), QTextCharFormat());
 
+    // Format for event days
     QTextCharFormat eventFormat;
     auto palette = qApp->palette();
     eventFormat.setBackground(palette.brush(QPalette::Mid));
 
+    // Setting format for all event days
     QDate it = QDate(ui->calendar->yearShown(), ui->calendar->monthShown(), 1);
     while(it.month() == ui->calendar->monthShown())
     {

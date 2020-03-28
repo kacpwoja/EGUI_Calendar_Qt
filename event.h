@@ -51,6 +51,7 @@ public:
     void title(const QString& title) noexcept { _title = title; }
     void location(const QString& location) noexcept { _location = location; }
 
+    // JSON read/write
     void read(const QJsonObject& json);
     void write(QJsonObject& json) const;
 private:

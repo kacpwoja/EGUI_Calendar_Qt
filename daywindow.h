@@ -24,11 +24,10 @@ private:
     Ui::DayWindow *ui;
     QDate _date;
     QVector<EventBox*> events;
-    void loadEvents();
-    void updateTopText();
-
 
 private slots:
+    void loadEvents();
+    void updateTopText();
     void newEvent();
 };
 

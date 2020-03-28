@@ -16,18 +16,21 @@ class EventBase: public QObject
 public:
     class EventBaseException : public QException {};
 
+    // Singleton implementation using C++11 magic static
     static EventBase& GetInstance()
     {
         static EventBase instance;
         return instance;
     }
 
+    // All methods needed for the calendar program
     int count(const QDate& date) const noexcept;
     void add(const Event& event);
     void remove(const Event& event);
     const QVector<Event>* getEvents(const QDate& date);
     void clear();
 
+    // JSON read/write
     void read(const QJsonObject& json);
     void write(QJsonObject& json) const;
 
@@ -45,6 +48,7 @@ private:
     QMap<QDate, QVector<Event>*> base;
 };
 
+// For easier and cleaner usage
 #define EventDB EventBase::GetInstance()
 
 #endif // EVENTBASE_H

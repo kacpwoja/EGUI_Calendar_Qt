@@ -14,6 +14,7 @@ EventWindow::EventWindow(const QDate& date, QWidget *parent) :
     ui->tEndEdit->setTime(QTime(QTime::currentTime().hour()+1,QTime::currentTime().minute()));
     ui->titleEdit->setPlainText("Event");
     edit = false;
+    this->setWindowTitle("New Event");
 }
 
 EventWindow::EventWindow(const Event& event, QWidget *parent) :
@@ -28,6 +29,7 @@ EventWindow::EventWindow(const Event& event, QWidget *parent) :
     ui->locationEdit->setPlainText(event.location());
     edit = true;
     old_event = event;
+    this->setWindowTitle("Edit Event");
 }
 
 EventWindow::~EventWindow()
